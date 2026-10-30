@@ -1,0 +1,708 @@
+<title>Minha Garagem de Minis</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700&family=Big+Shoulders+Display:wght@800;900&display=swap">
+<style>
+/* Layout: pista de corrida. Hero escuro (asfalto) com o escudo da marca, faixa de pista como divisor,
+   vitrine em grade de cartões e um painel de operação com tabela. */
+:root{
+  --bg:#F2F1EE; --surface:#FFFFFF; --surface-2:#E9E7E2; --ink:#17120F; --ink-2:#5B534D; --line:#D6D2CB;
+  --red:#B71C16; --red-2:#9A150F; --yellow:#F6D423; --orange:#EE8A1B; --focus:#0B57D0;
+  --hero-bg:#1B1514; --hero-fg:#F6F1EA; --hero-mute:#D4CBC2; --asphalt:#2A2321;
+  --warn-bg:#FFEFC7; --warn-fg:#7A4A00; --info-bg:#DCEBFA; --info-fg:#134E8C;
+  --ok-bg:#DAF1E0; --ok-fg:#14602B; --bad-bg:#FADDDA; --bad-fg:#8F1A12; --mute-bg:#E7E5E1; --mute-fg:#4A433F;
+  --logo:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAzODAgNDIwJz4KPGNpcmNsZSBjeD0nMTkwJyBjeT0nMjEwJyByPScxNzYnIGZpbGw9JyNCNzFDMTYnIHN0cm9rZT0nIzE3MTIwRicgc3Ryb2tlLXdpZHRoPScxNCcvPgo8Y2lyY2xlIGN4PScxOTAnIGN5PScyMTAnIHI9JzE0NicgZmlsbD0nbm9uZScgc3Ryb2tlPScjRjZENDIzJyBzdHJva2Utd2lkdGg9JzUnLz4KPHRleHQgeD0nMTkwJyB5PScyMzgnIHRleHQtYW5jaG9yPSdtaWRkbGUnIGZvbnQtZmFtaWx5PSdJbXBhY3QsQXJpYWwgQmxhY2ssQXJpYWwsc2Fucy1zZXJpZicgZm9udC1zaXplPScxNTAnIGZvbnQtd2VpZ2h0PSc5MDAnIGZpbGw9JyNGNkQ0MjMnPjY0PC90ZXh0Pgo8cmVjdCB4PSc4NCcgeT0nMjY2JyB3aWR0aD0nMjEyJyBoZWlnaHQ9JzEyJyBmaWxsPScjRUU4QTFCJy8+Cjx0ZXh0IHg9JzE5MCcgeT0nMzI2JyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBmb250LWZhbWlseT0nSW1wYWN0LEFyaWFsIEJsYWNrLEFyaWFsLHNhbnMtc2VyaWYnIGZvbnQtc2l6ZT0nNTQnIGxldHRlci1zcGFjaW5nPSc4JyBmaWxsPScjRkZGRkZGJz5NSU5JUzwvdGV4dD4KPC9zdmc+");
+  --font-display:'Big Shoulders Display','Impact','Arial Narrow',sans-serif;
+  --font-body:'Barlow',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --font-label:'Barlow Condensed','Arial Narrow',sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#131010; --surface:#1E1918; --surface-2:#2A2423; --ink:#F4F0EB; --ink-2:#B9AFA8; --line:#3B3432;
+  --red:#D52F24; --red-2:#E5463B; --focus:#8AB4FF; --hero-bg:#221B1A;
+  --warn-bg:#3A2C0B; --warn-fg:#F7C95C; --info-bg:#122B47; --info-fg:#9CC6F5;
+  --ok-bg:#12331C; --ok-fg:#8FD6A3; --bad-bg:#42191A; --bad-fg:#F5A19A; --mute-bg:#2B2523; --mute-fg:#C6BCB5;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#131010; --surface:#1E1918; --surface-2:#2A2423; --ink:#F4F0EB; --ink-2:#B9AFA8; --line:#3B3432;
+  --red:#D52F24; --red-2:#E5463B; --focus:#8AB4FF; --hero-bg:#221B1A;
+  --warn-bg:#3A2C0B; --warn-fg:#F7C95C; --info-bg:#122B47; --info-fg:#9CC6F5;
+  --ok-bg:#12331C; --ok-fg:#8FD6A3; --bad-bg:#42191A; --bad-fg:#F5A19A; --mute-bg:#2B2523; --mute-fg:#C6BCB5;
+  color-scheme:dark}
+
+*,*::before,*::after{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.55 var(--font-body);-webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--surface);z-index:30}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:inherit}
+h1,h2,h3{margin:0;text-wrap:balance}
+h2{font:900 clamp(1.8rem,4.2vw,2.5rem)/1 var(--font-display);text-transform:uppercase;letter-spacing:.01em}
+h3{font:800 1.5rem/1.05 var(--font-display);text-transform:uppercase}
+p{margin:0}
+small,.muted{color:var(--ink-2)}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.num,.tab{font-variant-numeric:tabular-nums}
+
+.demo{background:var(--yellow);color:#17120F;font:600 .9rem/1.35 var(--font-body)}
+.demo .wrap{padding-block:8px}
+
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 20px;padding-block:8px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font:900 1.6rem/1 var(--font-display);text-transform:uppercase;letter-spacing:.02em}
+.brand .logo-mark{width:38px;height:42px}
+.logo-mark{background:var(--logo) center/contain no-repeat}
+nav.main{display:flex;flex-wrap:wrap;gap:4px}
+nav.main a{font:700 1.05rem/1 var(--font-label);text-transform:uppercase;letter-spacing:.06em;text-decoration:none;padding:12px 12px;border-bottom:3px solid transparent}
+nav.main a:hover{border-bottom-color:var(--line)}
+nav.main a[aria-current="page"]{border-bottom-color:var(--orange)}
+
+.hero{background:var(--hero-bg);color:var(--hero-fg)}
+.hero-in{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:28px 40px;align-items:center;padding-block:40px 44px}
+.eyebrow{font:700 1.05rem/1 var(--font-label);text-transform:uppercase;letter-spacing:.14em;color:var(--orange)}
+.hero h1{font:900 clamp(2.7rem,8vw,5.4rem)/.9 var(--font-display);text-transform:uppercase;color:var(--yellow);margin-block:14px 16px}
+.lead{font-size:1.125rem;color:var(--hero-mute);max-width:52ch}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+.hero-logo{width:min(100%,330px);aspect-ratio:380/420;justify-self:center}
+.lane{height:18px;background:var(--asphalt);position:relative}
+.lane::after{content:"";position:absolute;left:0;right:0;top:50%;height:3px;transform:translateY(-50%);background:repeating-linear-gradient(90deg,var(--yellow) 0 28px,transparent 28px 50px)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:11px 20px;background:var(--red);color:#fff;border:2px solid var(--red);border-radius:3px;font:700 1.1rem/1 var(--font-label);text-transform:uppercase;letter-spacing:.06em;text-decoration:none;cursor:pointer;transition:background .15s,transform .15s}
+.btn:hover{background:var(--red-2);border-color:var(--red-2);transform:translateY(-1px)}
+.btn.sec{background:transparent;color:var(--ink);border-color:var(--ink)}
+.btn.sec:hover{background:var(--surface-2)}
+.btn.on-dark{color:var(--hero-fg);border-color:var(--hero-fg)}
+.btn.on-dark:hover{background:rgba(255,255,255,.12)}
+.btn.sm{min-height:36px;padding:7px 12px;font-size:.98rem}
+.btn[disabled]{opacity:.5;cursor:not-allowed;transform:none}
+.btn.block{width:100%}
+
+.block{padding-block:44px 8px}
+.block>h2{margin-bottom:20px}
+.arrivals{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}
+.arrivals li{border-top:5px solid var(--ink);padding-top:12px;position:relative}
+.arrivals li::before{content:"";position:absolute;top:-12px;left:0;width:19px;height:19px;border-radius:50%;background:var(--orange);border:4px solid var(--bg)}
+.arrivals .d{font:900 2.2rem/1 var(--font-display);text-transform:uppercase}
+.arrivals .n{font-weight:600}
+.arrivals .l{font:600 .95rem/1.2 var(--font-label);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:4px;display:flex;flex-direction:column;min-width:0}
+.card .tag{padding:7px 14px;font:700 1rem/1 var(--font-label);text-transform:uppercase;letter-spacing:.12em;border-bottom:1px solid var(--line)}
+.tag.pre{background:var(--orange);color:#17120F;border-color:var(--orange)}
+.tag.ok{background:var(--ok-bg);color:var(--ok-fg)}
+.card .body{padding:16px 14px 16px;display:flex;flex-direction:column;gap:12px;flex:1}
+.card dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:0;font-size:.95rem}
+.card dt{color:var(--ink-2)}
+.card dd{margin:0;text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+.bar{height:8px;background:var(--surface-2);border-radius:2px;overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--orange)}
+.bar-l{display:flex;justify-content:space-between;font-size:.85rem;color:var(--ink-2);margin-top:4px}
+.card .btn{margin-top:auto}
+
+.how{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.how li{display:grid;gap:4px;align-content:start}
+.how b{font:900 3rem/1 var(--font-display);color:var(--red)}
+.how strong{font:800 1.25rem/1.1 var(--font-display);text-transform:uppercase}
+.how span{color:var(--ink-2)}
+
+.page{padding-block:36px 24px}
+.page>.wrap>h1,.page h1{font:900 clamp(2.2rem,6vw,3.4rem)/.95 var(--font-display);text-transform:uppercase}
+.page .sub{color:var(--ink-2);margin-top:8px;max-width:62ch}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:18px}
+
+.field{display:grid;gap:6px;margin-bottom:14px;border:0;padding:0;min-width:0}
+.field>label,.field>legend{font:700 1.02rem/1.1 var(--font-label);text-transform:uppercase;letter-spacing:.08em;padding:0}
+input[type=text],input[type=email],input[type=tel],input[type=number],input[type=date],select{width:100%;min-height:46px;padding:10px 12px;font:400 1rem/1.3 var(--font-body);color:var(--ink);background:var(--surface);border:2px solid var(--line);border-radius:3px}
+input:hover,select:hover{border-color:var(--ink-2)}
+.err{color:var(--bad-fg);background:var(--bad-bg);padding:8px 10px;border-radius:3px;font-weight:600;margin-bottom:12px}
+.err:empty{display:none}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:2px solid var(--line);border-radius:3px;cursor:pointer}
+.opt input{width:20px;height:20px;margin:2px 0 0;flex:none;accent-color:var(--red)}
+.opt:has(input:checked){border-color:var(--ink)}
+.opts{display:grid;gap:8px}
+.row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0 14px}
+.stepper{display:inline-flex;align-items:stretch}
+.stepper button{width:46px;min-height:46px;font:700 1.4rem/1 var(--font-body);background:var(--surface-2);color:var(--ink);border:2px solid var(--line);cursor:pointer}
+.stepper input{width:70px;text-align:center;border-radius:0;border-inline:0}
+
+.pill{display:inline-flex;align-items:center;gap:6px;padding:3px 9px;border-radius:3px;font:700 .95rem/1.2 var(--font-label);letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
+.pill::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+.p-warn{background:var(--warn-bg);color:var(--warn-fg)}.p-info{background:var(--info-bg);color:var(--info-fg)}
+.p-ok{background:var(--ok-bg);color:var(--ok-fg)}.p-bad{background:var(--bad-bg);color:var(--bad-fg)}.p-mute{background:var(--mute-bg);color:var(--mute-fg)}
+.todo{background:var(--warn-bg);color:var(--warn-fg);padding:0 6px;border-radius:3px;font-weight:600}
+
+.plate{display:inline-block;padding:6px 16px;border:3px solid var(--ink);border-radius:5px;background:var(--surface);font:900 2rem/1 var(--font-display);letter-spacing:.12em;text-transform:uppercase}
+
+.timeline{list-style:none;margin:0;padding:0}
+.timeline li{position:relative;padding:0 0 18px 34px;min-height:44px}
+.timeline li::before{content:"";position:absolute;left:8px;top:22px;bottom:-2px;width:3px;background:var(--line)}
+.timeline li:last-child::before{display:none}
+.timeline li::after{content:"";position:absolute;left:0;top:2px;width:19px;height:19px;border-radius:50%;border:3px solid var(--line);background:var(--surface)}
+.timeline li.done::after{background:var(--ok-fg);border-color:var(--ok-fg)}
+.timeline li.done::before{background:var(--ok-fg)}
+.timeline li.now::after{border-color:var(--orange);background:var(--yellow)}
+.timeline b{display:block;font-weight:700}
+.timeline small{display:block}
+
+.summary{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;margin:0 0 16px;font-size:.97rem}
+.summary dt{color:var(--ink-2)}
+.summary dd{margin:0;font-weight:600;text-align:right;font-variant-numeric:tabular-nums}
+.summary .tot{font-size:1.1rem}
+
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:14px}
+.kpi .k{font:700 1rem/1 var(--font-label);text-transform:uppercase;letter-spacing:.08em;color:var(--ink-2)}
+.kpi .v{font:900 2.2rem/1.1 var(--font-display);margin-top:6px;font-variant-numeric:tabular-nums}
+.kpi.alert{border-color:var(--bad-fg)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 12px}
+.chip{min-height:40px;padding:6px 14px;border:2px solid var(--line);background:var(--surface);color:var(--ink);border-radius:3px;font:700 1rem/1 var(--font-label);text-transform:uppercase;letter-spacing:.05em;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:4px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:860px;font-size:.95rem}
+th{text-align:left;font:700 .98rem/1 var(--font-label);text-transform:uppercase;letter-spacing:.08em;color:var(--ink-2);padding:12px;border-bottom:2px solid var(--line);white-space:nowrap}
+td{padding:12px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.r,th.r{text-align:right}
+.acts{display:flex;flex-wrap:wrap;gap:6px}
+.stack{display:grid;gap:4px;justify-items:start}
+.sect{margin-top:34px;display:grid;gap:14px}
+.colrow{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) auto;gap:10px 18px;align-items:center;padding:14px;border-bottom:1px solid var(--line)}
+.colrow:last-child{border-bottom:0}
+.colrow details{grid-column:1/-1}
+.colrow summary{cursor:pointer;font-weight:600}
+.colrow ul{margin:8px 0 0;padding-left:18px;display:grid;gap:4px}
+
+.legal h2{margin:34px 0 12px}
+.legal h3{font-size:1.15rem;margin:18px 0 6px}
+.legal p,.legal li{max-width:70ch}
+.legal ul{padding-left:20px;margin:6px 0}
+details.doc{border:1px solid var(--line);border-radius:3px;margin-bottom:8px;background:var(--surface)}
+details.doc summary{padding:10px 12px;cursor:pointer;font-weight:600}
+details.doc .legal{padding:0 14px 12px;font-size:.93rem}
+details.doc .legal h2{display:none}
+
+.foot{margin-top:56px;background:var(--hero-bg);color:var(--hero-fg)}
+.foot .wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px 40px;padding-block:30px 36px}
+.foot h3{font-size:1.2rem;color:var(--yellow);margin-bottom:8px}
+.foot p,.foot li{font-size:.93rem;color:var(--hero-mute)}
+.foot ul{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.foot a{color:var(--hero-fg)}
+
+.overlay{position:fixed;inset:0;z-index:50;background:rgba(10,6,5,.68);display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.overlay[hidden]{display:none}
+.modal{position:relative;width:100%;max-width:640px;margin-block:auto;background:var(--surface);border-radius:4px;border-top:6px solid var(--orange);padding:22px 20px 22px}
+.modal h2{font-size:1.9rem;padding-right:40px}
+.modal h2:focus{outline:none}
+.modal .x{position:absolute;right:8px;top:8px;width:44px;height:44px;border:0;background:transparent;color:var(--ink);font-size:1.9rem;line-height:1;cursor:pointer}
+.steps{display:flex;gap:6px;margin:10px 0 18px;font:700 .95rem/1 var(--font-label);text-transform:uppercase;letter-spacing:.06em;flex-wrap:wrap}
+.steps span{padding:5px 9px;border-radius:3px;background:var(--surface-2);color:var(--ink-2)}
+.steps .on{background:var(--ink);color:var(--bg)}
+.btnrow{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.pix{display:grid;gap:14px;justify-items:center;text-align:center;margin-top:12px}
+.pix canvas{max-width:100%;height:auto;border:1px solid var(--line);border-radius:4px}
+.pix .amt{font:900 2.6rem/1 var(--font-display);font-variant-numeric:tabular-nums}
+.pix .code{width:100%;font:500 .85rem/1.3 ui-monospace,Menlo,monospace;text-align:left}
+.note{background:var(--warn-bg);color:var(--warn-fg);padding:10px 12px;border-radius:3px;font-size:.93rem}
+.toast{position:fixed;left:50%;bottom:max(18px,env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);max-width:min(92vw,460px);background:var(--ink);color:var(--bg);padding:12px 16px;border-radius:3px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:60}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+@media (max-width:760px){
+  .hero-in{grid-template-columns:1fr}
+  .hero-logo{width:min(70%,240px);order:-1;justify-self:start}
+  .colrow{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+
+<div class="demo" id="demo"><div class="wrap">Projeto de demonstração. A loja, os dados da empresa e os clientes são fictícios. Nenhum Pix real é gerado e os dados ficam só neste navegador.</div></div>
+
+<header class="top"><div class="wrap">
+  <a class="brand" href="#loja"><span class="logo-mark" aria-hidden="true"></span><span>Minha Garagem de Minis</span></a>
+  <nav class="main" aria-label="Principal">
+    <a href="#loja" data-v="loja">Coleções</a>
+    <a href="#acompanhar" data-v="acompanhar">Acompanhar pedido</a>
+    <a href="#painel" data-v="painel">Painel do dono</a>
+  </nav>
+</div></header>
+
+<main>
+<section id="v-loja" class="view">
+  <div class="hero"><div class="wrap hero-in">
+    <div>
+      <p class="eyebrow">Miniaturas colecionáveis · escala 1:64</p>
+      <h1>Reserve hoje. Receba quando o lote chegar.</h1>
+      <p class="lead">Escolha a coleção, pague o sinal por Pix e acompanhe cada etapa do pedido, da reserva até a entrega.</p>
+      <div class="cta">
+        <button class="btn" type="button" data-act="scroll-col">Ver coleções abertas</button>
+        <a class="btn sec on-dark" href="#acompanhar">Acompanhar pedido</a>
+      </div>
+    </div>
+    <div class="logo-mark hero-logo" role="img" aria-label="Logotipo Minha Garagem de Minis"></div>
+  </div></div>
+  <div class="lane" aria-hidden="true"></div>
+  <div class="wrap">
+    <section class="block" aria-labelledby="h-arr"><h2 id="h-arr">Próximas chegadas</h2><ol class="arrivals" id="arrivals"></ol></section>
+    <section class="block" id="colecoes" aria-labelledby="h-col"><h2 id="h-col">Coleções</h2><div class="grid" id="cols"></div></section>
+    <section class="block" aria-labelledby="h-how"><h2 id="h-how">Como funciona</h2>
+      <ol class="how">
+        <li><b>1</b><strong>Escolha a coleção</strong><span>Veja a data prevista de chegada, o preço por peça e as vagas que restam.</span></li>
+        <li><b>2</b><strong>Reserve e pague o sinal</strong><span>O Pix do sinal garante sua vaga. A reserva fica segura por 24 horas.</span></li>
+        <li><b>3</b><strong>Acompanhe o lote</strong><span>Com o código do pedido você vê cada etapa e quanto falta pagar.</span></li>
+        <li><b>4</b><strong>Pague o saldo e receba</strong><span>Quando o lote chega, você paga o saldo por Pix e combina a retirada ou o envio.</span></li>
+      </ol>
+    </section>
+  </div>
+</section>
+
+<section id="v-acompanhar" class="view page" hidden><div class="wrap">
+  <h1>Acompanhar pedido</h1>
+  <p class="sub">Digite o código que apareceu na reserva e os 4 últimos dígitos do WhatsApp usado nela.</p>
+  <form id="trackForm" class="panel" style="margin-top:20px;max-width:560px" novalidate>
+    <div class="row2">
+      <div class="field"><label for="tCode">Código do pedido</label><input id="tCode" type="text" autocomplete="off" autocapitalize="characters" value="GA-0001"></div>
+      <div class="field"><label for="tZap">4 últimos dígitos do WhatsApp</label><input id="tZap" type="text" inputmode="numeric" maxlength="4" autocomplete="off" value="0001"></div>
+    </div>
+    <p class="err" id="tErr" role="alert"></p>
+    <button class="btn" type="submit">Ver pedido</button>
+    <p class="muted" style="margin-top:10px;font-size:.9rem" id="tHint">Exemplo da demonstração: código GA-0001, final 0001.</p>
+  </form>
+  <div id="trackOut" style="margin-top:22px"></div>
+</div></section>
+
+<section id="v-painel" class="view page" hidden><div class="wrap">
+  <h1>Painel do dono</h1>
+  <p class="sub">Pedidos, pagamentos e chegadas de lote num lugar só.</p>
+  <p class="note" style="margin-top:16px;max-width:70ch" id="adminNote">Na versão publicada, esta tela exige login com senha e verificação em duas etapas. Aqui ela fica aberta para você testar.</p>
+  <div id="pDyn" style="margin-top:22px"></div>
+  <div class="sect">
+    <h2>Nova coleção</h2>
+    <form id="newCol" class="panel" novalidate>
+      <div class="row2">
+        <div class="field"><label for="nNome">Nome</label><input id="nNome" type="text" placeholder="Ex.: Muscle Cars · Lote 3"></div>
+        <div class="field"><label for="nTipo">Tipo</label><select id="nTipo"><option value="pre">Pré-venda (lote a chegar)</option><option value="estoque">Pronta entrega</option></select></div>
+        <div class="field"><label for="nData">Chegada prevista</label><input id="nData" type="date"></div>
+        <div class="field"><label for="nPreco">Preço por peça (R$)</label><input id="nPreco" type="number" min="1" step="0.01" placeholder="45,00"></div>
+        <div class="field"><label for="nSinal">Sinal (%)</label><input id="nSinal" type="number" min="10" max="100" step="5" value="30"></div>
+        <div class="field"><label for="nVagas">Vagas</label><input id="nVagas" type="number" min="1" step="1" value="30"></div>
+      </div>
+      <div class="field"><label for="nDesc">Descrição curta</label><input id="nDesc" type="text" placeholder="Modelos incluídos no lote"></div>
+      <p class="err" id="nErr" role="alert"></p>
+      <div class="btnrow"><button class="btn" type="submit">Abrir coleção</button><button class="btn sec" type="button" data-act="reset">Restaurar dados de exemplo</button></div>
+    </form>
+  </div>
+</div></section>
+
+<section id="v-politicas" class="view page" hidden><div class="wrap">
+  <h1>Políticas da loja</h1>
+  <p class="sub">Privacidade (LGPD), termos da pré-venda e direito de arrependimento.</p>
+  <p class="note" style="margin-top:16px;max-width:70ch" id="legalNote">Estes textos são um modelo de partida. Um advogado ou contador deve revisar antes da publicação, junto com os dados do fornecedor.</p>
+  <div class="legal" id="legalFull"></div>
+</div></section>
+</main>
+
+<footer class="foot"><div class="wrap">
+  <div><h3>Minha Garagem de Minis</h3><p>Miniaturas colecionáveis em pré-venda e pronta entrega. Pagamento por Pix.</p></div>
+  <div id="supBlock"></div>
+  <div><h3>Políticas</h3><ul><li><a href="#politicas">Privacidade e proteção de dados</a></li><li><a href="#politicas">Termos da pré-venda</a></li><li><a href="#politicas">Direito de arrependimento</a></li></ul><p style="margin-top:8px">Não coletamos dados de cartão. O Pix é processado pelo seu banco.</p></div>
+</div></footer>
+
+<div class="overlay" id="overlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+    <button class="x" type="button" data-act="close" aria-label="Fechar">×</button>
+    <div id="mBody"></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+'use strict';
+var STORE={nome:'Minha Garagem de Minis',razao:'Minha Garagem de Minis Comércio de Miniaturas Ltda. (empresa fictícia)',cnpj:'00.000.000/0001-00 (exemplo)',endereco:'Rua Exemplo, 64, Centro, Cidade Exemplo/UF (fictício)',email:'contato@example.com',whatsapp:'(00) 90000-0000 (exemplo)'};
+var DEMO=true,HOLD_H=24,KEY='minhagaragem-demo-v1',DAY=864e5;
+var $=function(s,r){return (r||document).querySelector(s)};
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+var esc=function(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
+var brl=function(c){return (c/100).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})};
+var MES=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+var dmy=function(t){return new Date(t).toLocaleDateString('pt-BR')};
+var dm=function(t){var d=new Date(t);return String(d.getDate()).padStart(2,'0')+' '+MES[d.getMonth()]};
+var dhm=function(t){return new Date(t).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'})};
+var todo=function(v){return v?esc(v):'<span class="todo">preencher</span>'};
+var fmtZap=function(z){var d=String(z).replace(/^55/,'');return '('+d.slice(0,2)+') '+d.slice(2,d.length-4)+'-'+d.slice(-4)};
+var first=function(n){return String(n).trim().split(/\s+/)[0]};
+
+/* ---------- dados ---------- */
+function seed(){
+  var n=Date.now(),H=36e5;
+  var cols=[
+    {id:'c0',nome:'Retro Racers · Lote 0',tipo:'pre',chegada:n-3*DAY,chegou:true,preco:3800,sinalPct:30,vagas:24,desc:'Clássicos dos anos 60 e 70 em escala 1:64. O lote já chegou.'},
+    {id:'c1',nome:'Muscle Cars · Lote 1',tipo:'pre',chegada:n+18*DAY,chegou:false,preco:4500,sinalPct:30,vagas:40,desc:'Esportivos americanos clássicos em escala 1:64: Mustang, Camaro, Charger e Challenger.'},
+    {id:'c2',nome:'JDM Clássicos · Lote 2',tipo:'pre',chegada:n+45*DAY,chegou:false,preco:5200,sinalPct:30,vagas:50,desc:'Esportivos japoneses dos anos 80 e 90 em escala 1:64.'},
+    {id:'c3',nome:'Caçada ao Tesouro · Lote A',tipo:'pre',chegada:n+75*DAY,chegou:false,preco:8900,sinalPct:50,vagas:20,desc:'Peças difíceis de achar, vendidas com o lacre fechado.'},
+    {id:'c4',nome:'Pronta entrega · Sortidas',tipo:'estoque',chegada:null,chegou:true,preco:2900,sinalPct:100,vagas:60,desc:'Peças em estoque, prontas para retirar ou enviar.'}
+  ];
+  var byId={};cols.forEach(function(c){byId[c.id]=c});
+  function mk(num,col,qtd,nome,email,entrega,hAgo,pays,x){
+    var c=byId[col],id='GA-'+String(num).padStart(4,'0'),total=qtd*c.preco,sinal=Math.round(total*c.sinalPct/100);
+    var o={id:id,col:col,qtd:qtd,preco:c.preco,sinalPct:c.sinalPct,nome:nome,zap:'556290000'+String(num).padStart(4,'0'),email:email,entrega:entrega,
+      criado:n-hAgo*H,pagos:[],chegou:!!c.chegou||c.tipo==='estoque',entregue:false,cancelado:false,arrep:null,estornoPendente:false,
+      consent:{aceite:true,marketing:false,em:n-hAgo*H}};
+    pays.forEach(function(p){o.pagos.push({tipo:p,valor:p==='sinal'?sinal:total-sinal,em:n-(hAgo-1)*H})});
+    for(var k in (x||{}))o[k]=x[k];
+    return o;
+  }
+  var orders=[
+    mk(1,'c1',2,'Rafael Moreira','rafael@example.com','retirada',72,['sinal']),
+    mk(2,'c1',1,'Camila Souza','camila@example.com','envio',3,[]),
+    mk(3,'c1',4,'Bruno Alves','bruno@example.com','retirada',120,['sinal']),
+    mk(4,'c2',3,'Larissa Prado','larissa@example.com','envio',30,[]),
+    mk(5,'c3',1,'Diego Ferreira','diego@example.com','retirada',48,['sinal']),
+    mk(6,'c4',5,'Thiago Ramos','thiago@example.com','envio',20,['sinal']),
+    mk(7,'c4',2,'Marina Lopes','marina@example.com','retirada',200,['sinal'],{entregue:true}),
+    mk(8,'c1',1,'Paulo Henrique','paulo@example.com','envio',96,['sinal'],{arrep:n-2*H}),
+    mk(9,'c0',3,'Fernanda Dias','fernanda@example.com','retirada',150,['sinal'])
+  ];
+  return {cols:cols,orders:orders};
+}
+function load(){try{var j=JSON.parse(localStorage.getItem(KEY));if(j&&j.cols&&j.orders)return j}catch(e){}return null}
+function save(){try{localStorage.setItem(KEY,JSON.stringify({cols:S.cols,orders:S.orders}))}catch(e){}}
+var S=load()||seed();
+S.view='loja';S.filter='todos';S.track=DEMO?'GA-0001':null;
+
+/* ---------- regras ---------- */
+function colOf(o){return S.cols.filter(function(c){return c.id===o.col})[0]||{nome:'Coleção removida'}}
+function calc(o){var total=o.qtd*o.preco,sinal=Math.round(total*o.sinalPct/100),pago=o.pagos.reduce(function(s,p){return s+p.valor},0);return {total:total,sinal:sinal,saldo:total-sinal,pago:pago,devendo:Math.max(0,total-pago)}}
+function status(o){
+  if(o.cancelado)return 'cancelado';
+  if(o.entregue)return 'entregue';
+  var k=calc(o);
+  if(k.pago>=k.total)return o.chegou?'pronto':'pago';
+  if(k.pago>0)return o.chegou?'saldo':'sinal_pago';
+  if(Date.now()>o.criado+HOLD_H*36e5)return 'expirado';
+  return 'aguardando';
+}
+var ST={aguardando:['Aguardando Pix do sinal','warn'],expirado:['Reserva expirada','mute'],sinal_pago:['Reserva garantida','info'],saldo:['Saldo a pagar','warn'],pago:['Pago, aguardando o lote','ok'],pronto:['Pago, pronto para envio','ok'],entregue:['Enviado ou retirado','mute'],cancelado:['Cancelado','bad']};
+function pill(o){var s=ST[status(o)];return '<span class="pill p-'+s[1]+'">'+s[0]+'</span>'}
+function ativo(o){var s=status(o);return s!=='cancelado'&&s!=='expirado'}
+function reservados(id){return S.orders.filter(function(o){return o.col===id&&ativo(o)}).reduce(function(s,o){return s+o.qtd},0)}
+function nextId(){return 'GA-'+String(S.orders.reduce(function(m,o){return Math.max(m,parseInt(o.id.slice(3),10)||0)},0)+1).padStart(4,'0')}
+function sendUrl(){return location.href.split('#')[0]}
+function wa(o,msg){return 'https://wa.me/'+o.zap+'?text='+encodeURIComponent(msg)}
+function cancelar(o){o.cancelado=true;o.cancelEm=Date.now();if(calc(o).pago>0)o.estornoPendente=true}
+function toast(m){var t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(function(){t.classList.remove('on')},3600)}
+
+/* ---------- textos legais ---------- */
+function sup(){return '<p><strong>Fornecedor:</strong> '+todo(STORE.razao)+' (nome fantasia '+esc(STORE.nome)+'), CNPJ/CPF '+todo(STORE.cnpj)+'.<br>Endereço: '+todo(STORE.endereco)+'.<br>E-mail: '+todo(STORE.email)+' · WhatsApp: '+todo(STORE.whatsapp)+'.</p>'}
+function privacidade(){return '<h2>Privacidade e proteção de dados</h2>'+
+'<p>Esta política segue a Lei Geral de Proteção de Dados (Lei 13.709/2018).</p>'+
+'<h3>Quem é o controlador</h3>'+sup()+
+'<h3>Quais dados coletamos</h3><p>Nome, WhatsApp, e-mail e os dados do pedido (coleção, quantidade, valores e pagamentos). Se você escolher envio, pedimos o endereço no atendimento, antes de postar.</p>'+
+'<h3>Para que usamos e em que base legal</h3><ul><li>Reservar, cobrar, avisar da chegada do lote e entregar: execução do contrato (art. 7º, V).</li><li>Guardar registros fiscais e atender a leis: cumprimento de obrigação legal (art. 7º, II).</li><li>Avisos de novas coleções: somente com o seu consentimento, que é separado da reserva e pode ser retirado quando quiser (art. 7º, I).</li></ul>'+
+'<h3>Com quem compartilhamos</h3><p>Com o provedor de pagamento Pix, para gerar a cobrança e confirmar o pagamento, com a transportadora quando há envio e com o contador. Não vendemos nem alugamos dados.</p>'+
+'<h3>Pagamento</h3><p>O Pix é processado pelo provedor de pagamento. Não recebemos nem guardamos dados de cartão, senhas ou chaves de acesso à sua conta.</p>'+
+'<h3>Por quanto tempo guardamos</h3><p>Pelo tempo necessário para concluir o pedido e pelos prazos que a lei exige, como os fiscais e os de defesa em caso de disputa.</p>'+
+'<h3>Seus direitos</h3><p>Você pode pedir confirmação de que tratamos seus dados, acesso, correção, anonimização ou eliminação do que não for necessário, portabilidade, informação sobre compartilhamento e retirada do consentimento (art. 18). Fale com a gente pelo e-mail ou WhatsApp acima.</p>'+
+'<h3>Segurança</h3><p>O site usa conexão criptografada (HTTPS). O acesso aos pedidos é restrito ao dono, com senha e verificação em duas etapas. Registros de acesso são guardados conforme o Marco Civil da Internet.</p>'+
+'<h3>Cookies</h3><p>Não usamos cookies de rastreamento nem de publicidade. O site usa apenas o armazenamento do navegador para funcionar.</p>'}
+function termos(){return '<h2>Termos da pré-venda</h2>'+
+'<h3>1. O que é a pré-venda</h3><p>É a reserva de peças de um lote que ainda não chegou à loja. A data de chegada de cada coleção é uma previsão e pode mudar por motivo da fabricante, da importação ou do transporte. Avisamos você de qualquer mudança de prazo.</p>'+
+'<h3>2. Preço e pagamento</h3><p>O preço por peça, o percentual de sinal e o saldo aparecem no resumo antes de você confirmar. O sinal é pago por Pix para garantir a vaga. O saldo é cobrado por Pix quando o lote chega. Antes de confirmar, confira na tela do seu banco se o nome do recebedor é o da loja.</p>'+
+'<h3>3. Validade da reserva</h3><p>Após a reserva, o Pix do sinal tem '+HOLD_H+' horas para ser pago. Depois disso a vaga volta para a coleção.</p>'+
+'<h3>4. Atraso ou lote que não chega</h3><p>Se o prazo informado não for cumprido, você pode esperar o novo prazo, escolher outra peça ou cancelar e receber de volta todo o valor pago, com atualização monetária, conforme o art. 35 do Código de Defesa do Consumidor.</p>'+
+'<h3>5. Entrega</h3><p>Você escolhe retirada com o vendedor ou envio. O frete é informado antes da cobrança do saldo. As fotos são ilustrativas e os modelos seguem a descrição de cada coleção.</p>'+
+'<h3>6. Defeito ou avaria</h3><p>Peça com defeito ou danificada no transporte segue os arts. 18 e 26 do Código de Defesa do Consumidor. Avise pelo WhatsApp com fotos da peça e da embalagem.</p>'}
+function arrepend(){return '<h2>Direito de arrependimento</h2>'+
+'<p>Compras feitas pela internet ou por WhatsApp podem ser desfeitas em até 7 dias corridos a partir do recebimento do produto, sem precisar explicar o motivo (art. 49 do Código de Defesa do Consumidor e Decreto 7.962/2013).</p>'+
+'<h3>Como pedir</h3><p>Use o botão &ldquo;Quero cancelar este pedido&rdquo; na página Acompanhar pedido, ou fale pelo WhatsApp. Confirmamos o recebimento do seu pedido de cancelamento na hora, no próprio site.</p>'+
+'<h3>Devolução do dinheiro</h3><p>Devolvemos imediatamente todos os valores pagos, incluindo o frete quando houver, por Pix. Para isso, pedimos a sua chave Pix pelo WhatsApp.</p>'+
+'<h3>Peça já recebida</h3><p>Devolva a peça na embalagem, sem sinais de uso além do necessário para conhecê-la. O custo da devolução fica com a loja.</p>'+
+'<h3>Antes do recebimento</h3><p>Em pré-venda, você pode cancelar a qualquer momento antes do envio e receber de volta tudo o que pagou.</p>'}
+
+/* ---------- vitrine ---------- */
+function renderLoja(){
+  var pre=S.cols.filter(function(c){return c.tipo==='pre'&&!c.chegou}).sort(function(a,b){return a.chegada-b.chegada});
+  $('#arrivals').innerHTML=pre.length?pre.map(function(c){var d=Math.max(0,Math.ceil((c.chegada-Date.now())/DAY));
+    return '<li><div class="d">'+dm(c.chegada)+'</div><div class="n">'+esc(c.nome)+'</div><div class="l">'+(d===0?'chega hoje':'faltam '+d+(d===1?' dia':' dias'))+'</div></li>'}).join(''):'<li><div class="n">Nenhum lote a caminho agora.</div></li>';
+  var list=S.cols.slice().sort(function(a,b){var ra=(a.tipo==='pre'&&!a.chegou)?0:1,rb=(b.tipo==='pre'&&!b.chegou)?0:1;return ra-rb||(a.chegada||0)-(b.chegada||0)});
+  $('#cols').innerHTML=list.map(function(c){
+    var res=reservados(c.id),livre=Math.max(0,c.vagas-res),pct=Math.min(100,Math.round(res/c.vagas*100));
+    var tag=c.chegou&&c.tipo==='pre'?['ok','Lote chegou']:c.tipo==='pre'?['pre','Pré-venda']:['ok','Pronta entrega'];
+    var chegada=c.tipo==='estoque'?'Imediata':c.chegou?'Já chegou':dmy(c.chegada);
+    var pgto=c.sinalPct>=100?'Pix, valor total':'Sinal '+c.sinalPct+'%, saldo na chegada';
+    return '<article class="card"><div class="tag '+tag[0]+'">'+tag[1]+'</div><div class="body"><h3>'+esc(c.nome)+'</h3><p class="muted">'+esc(c.desc)+'</p>'+
+    '<dl><dt>Chegada</dt><dd>'+chegada+'</dd><dt>Por peça</dt><dd>'+brl(c.preco)+'</dd><dt>Pagamento</dt><dd>'+pgto+'</dd></dl>'+
+    '<div><div class="bar" role="img" aria-label="'+res+' de '+c.vagas+' vagas reservadas"><i style="width:'+pct+'%"></i></div><div class="bar-l"><span>'+res+' de '+c.vagas+' reservadas</span><span>'+(livre?livre+' livres':'Esgotado')+'</span></div></div>'+
+    '<button class="btn block" type="button" data-act="reservar" data-id="'+c.id+'"'+(livre?'':' disabled')+'>'+(livre?'Reservar':'Esgotado')+'</button></div></article>'}).join('');
+}
+
+/* ---------- modal ---------- */
+var R={step:1,col:null,d:{qtd:1,entrega:'retirada',nome:'',zap:'',email:''},order:null,tipo:'sinal',from:null};
+var lastFocus=null;
+function openModal(){lastFocus=document.activeElement;$('#overlay').hidden=false;renderModal();var t=$('#mTitle');if(t)t.focus()}
+function closeModal(){if($('#overlay').hidden)return;$('#overlay').hidden=true;if(lastFocus&&lastFocus.focus)try{lastFocus.focus()}catch(e){}}
+function stepsBar(n){var l=['Dados','Resumo','Pix','Pronto'];return '<div class="steps" aria-label="Etapas">'+l.map(function(x,i){return '<span'+(i+1===n?' class="on" aria-current="step"':'')+'>'+(i+1)+' '+x+'</span>'}).join('')+'</div>'}
+function openReserve(id){
+  var c=S.cols.filter(function(x){return x.id===id})[0];if(!c)return;
+  R={step:1,col:c,d:{qtd:1,entrega:'retirada',nome:'',zap:'',email:''},order:null,tipo:'sinal',from:null};
+  openModal();
+}
+function openPix(orderId,tipo){
+  var o=S.orders.filter(function(x){return x.id===orderId})[0];if(!o)return;
+  R={step:'pix',col:null,d:{},order:o,tipo:tipo,from:'track'};
+  openModal();
+}
+function maxQtd(c){return Math.max(1,Math.min(10,c.vagas-reservados(c.id)))}
+function renderModal(){
+  var b=$('#mBody'),c=R.col,d=R.d,h='';
+  if(R.step===1){
+    var m=maxQtd(c);
+    h=stepsBar(1)+'<h2 id="mTitle" tabindex="-1">Reservar '+esc(c.nome)+'</h2>'+
+    '<p class="muted" style="margin:6px 0 16px">'+brl(c.preco)+' por peça · '+(c.tipo==='estoque'?'retirada ou envio imediatos':c.chegou?'lote já chegou':'chegada prevista em '+dmy(c.chegada))+'</p>'+
+    '<form id="f1" novalidate>'+
+    '<div class="field"><label for="qtd">Quantidade de peças</label><div><div class="stepper"><button type="button" data-act="q-" aria-label="Diminuir quantidade">−</button><input id="qtd" type="text" inputmode="numeric" value="'+d.qtd+'" aria-describedby="qtdMax"><button type="button" data-act="q+" aria-label="Aumentar quantidade">+</button></div></div><small id="qtdMax">Até '+m+' por pedido. Total: <strong id="liveTotal">'+brl(d.qtd*c.preco)+'</strong></small></div>'+
+    '<fieldset class="field"><legend>Entrega</legend><div class="opts">'+
+    '<label class="opt"><input type="radio" name="ent" value="retirada"'+(d.entrega==='retirada'?' checked':'')+'><span><strong>Retirada com o vendedor</strong><br><small>Combinada pelo WhatsApp</small></span></label>'+
+    '<label class="opt"><input type="radio" name="ent" value="envio"'+(d.entrega==='envio'?' checked':'')+'><span><strong>Envio pelos Correios ou transportadora</strong><br><small>O frete é informado antes da cobrança do saldo</small></span></label></div></fieldset>'+
+    '<div class="field"><label for="nome">Nome completo</label><input id="nome" type="text" autocomplete="name" value="'+esc(d.nome)+'"></div>'+
+    '<div class="row2"><div class="field"><label for="zap">WhatsApp com DDD</label><input id="zap" type="tel" inputmode="tel" autocomplete="tel" placeholder="(62) 90000-0000" value="'+esc(d.zap)+'"></div>'+
+    '<div class="field"><label for="mail">E-mail</label><input id="mail" type="email" autocomplete="email" value="'+esc(d.email)+'"></div></div>'+
+    '<p class="err" id="err" role="alert"></p><button class="btn block" type="submit">Continuar</button></form>';
+  } else if(R.step===2){
+    var total=d.qtd*c.preco,sinal=Math.round(total*c.sinalPct/100);
+    h=stepsBar(2)+'<h2 id="mTitle" tabindex="-1">Confira antes de confirmar</h2>'+
+    '<dl class="summary" style="margin-top:14px"><dt>Coleção</dt><dd>'+esc(c.nome)+'</dd><dt>Peças</dt><dd>'+d.qtd+' × '+brl(c.preco)+'</dd>'+
+    '<dt class="tot">Total</dt><dd class="tot">'+brl(total)+'</dd><dt>Sinal agora (Pix)</dt><dd>'+brl(sinal)+'</dd>'+
+    (c.sinalPct<100?'<dt>Saldo na chegada (Pix)</dt><dd>'+brl(total-sinal)+'</dd>':'')+
+    '<dt>Prazo</dt><dd>'+(c.tipo==='estoque'?'Imediato':c.chegou?'Lote já chegou':'Chegada prevista '+dmy(c.chegada))+'</dd>'+
+    '<dt>Entrega</dt><dd>'+(d.entrega==='envio'?'Envio, frete informado antes do saldo':'Retirada com o vendedor')+'</dd>'+
+    '<dt>Reserva segura por</dt><dd>'+HOLD_H+' horas</dd><dt>Arrependimento</dt><dd>7 dias após receber</dd></dl>'+
+    '<div style="font-size:.9rem;margin-bottom:14px">'+sup()+'</div>'+
+    '<details class="doc"><summary>Termos da pré-venda</summary><div class="legal">'+termos()+'</div></details>'+
+    '<details class="doc"><summary>Política de privacidade</summary><div class="legal">'+privacidade()+'</div></details>'+
+    '<details class="doc"><summary>Direito de arrependimento</summary><div class="legal">'+arrepend()+'</div></details>'+
+    '<form id="f2" novalidate style="margin-top:14px"><div class="opts" style="margin-bottom:14px">'+
+    '<label class="opt"><input type="checkbox" id="aceite"><span>Li e aceito os termos da pré-venda e a política de privacidade. Sei que posso desistir em até 7 dias após receber o produto.</span></label>'+
+    '<label class="opt"><input type="checkbox" id="mkt"><span>Quero receber avisos de novas coleções pelo WhatsApp. <small>Opcional, e você pode sair quando quiser.</small></span></label></div>'+
+    '<p class="err" id="err" role="alert"></p>'+
+    '<div class="btnrow"><button class="btn sec" type="button" data-act="voltar">Voltar</button><button class="btn" type="submit">Confirmar reserva e gerar Pix</button></div></form>';
+  } else if(R.step==='pix'){
+    h=(R.from==='track'?'':stepsBar(3))+pixHTML(R.order,R.tipo);
+  } else if(R.step===4){
+    var o=R.order,k=calc(o),cc=colOf(o);
+    h=stepsBar(4)+'<h2 id="mTitle" tabindex="-1">Reserva garantida</h2>'+
+    '<p style="margin:10px 0 14px">Recebemos o seu Pix. Guarde o código do pedido:</p><div class="plate">'+o.id+'</div>'+
+    '<p style="margin-top:14px">'+(k.devendo>0?'Quando o lote chegar, avisamos você pelo WhatsApp e você paga o saldo de <strong>'+brl(k.devendo)+'</strong> por Pix.':'Pagamento completo. Avisamos você pelo WhatsApp para combinar a entrega.')+'</p>'+
+    '<p class="muted" style="margin-top:8px">Para acompanhar, use o código e os 4 últimos dígitos do seu WhatsApp ('+esc(o.zap.slice(-4))+').</p>'+
+    '<div class="btnrow" style="margin-top:16px"><button class="btn" type="button" data-act="ver-pedido" data-id="'+o.id+'">Acompanhar este pedido</button><button class="btn sec" type="button" data-act="close">Fechar</button></div>';
+  }
+  b.innerHTML=h;
+  var cv=$('#qr');if(cv)drawQR(cv,R.order.id+R.tipo);
+}
+function pixHTML(o,tipo){
+  var k=calc(o),valor=tipo==='sinal'?k.sinal:k.devendo;
+  return '<h2 id="mTitle" tabindex="-1">Pague por Pix</h2>'+
+  '<div class="pix"><div class="plate">'+o.id+'</div>'+
+  '<canvas id="qr" width="252" height="252" role="img" aria-label="QR Code de demonstração. Não paga nada."></canvas>'+
+  '<div><div class="muted">'+(tipo==='sinal'?'Sinal da reserva':'Saldo do pedido')+'</div><div class="amt">'+brl(valor)+'</div></div>'+
+  '<input class="code" type="text" readonly aria-label="Pix copia e cola" value="Código Pix gerado pelo provedor de pagamento na versão publicada">'+
+  '<p class="muted" style="font-size:.93rem">Abra o app do seu banco, escolha Pix e leia o QR Code. Confira se o recebedor é <strong>'+esc(STORE.razao||STORE.nome)+'</strong> antes de confirmar. O pagamento é reconhecido sozinho, sem enviar comprovante.</p>'+
+  (tipo==='sinal'?'<p class="muted" style="font-size:.93rem">Sua vaga fica segura por '+HOLD_H+' horas.</p>':'')+
+  (DEMO?'<div class="note">Demonstração: este QR Code não recebe pagamento. Use o botão abaixo para simular o Pix recebido.</div><button class="btn block" type="button" data-act="simular">Simular Pix recebido</button>':'')+
+  '<button class="btn sec block" type="button" data-act="close">Pagar depois</button></div>';
+}
+function drawQR(cv,seedStr){
+  var N=29,cell=8,pad=10,size=N*cell+pad*2;cv.width=cv.height=size;
+  var g=cv.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,size,size);
+  var h=2166136261;for(var i=0;i<seedStr.length;i++){h=(h^seedStr.charCodeAt(i))>>>0;h=Math.imul(h,16777619)>>>0}
+  function rnd(){h^=h<<13;h>>>=0;h^=h>>>17;h^=h<<5;h>>>=0;return h/4294967296}
+  function inF(x,y){return (x<8&&y<8)||(x>N-9&&y<8)||(x<8&&y>N-9)}
+  g.fillStyle='#111';
+  for(var y=0;y<N;y++)for(var x=0;x<N;x++){if(!inF(x,y)&&rnd()>.52)g.fillRect(pad+x*cell,pad+y*cell,cell,cell)}
+  function finder(x,y){g.fillStyle='#111';g.fillRect(pad+x*cell,pad+y*cell,7*cell,7*cell);g.fillStyle='#fff';g.fillRect(pad+(x+1)*cell,pad+(y+1)*cell,5*cell,5*cell);g.fillStyle='#111';g.fillRect(pad+(x+2)*cell,pad+(y+2)*cell,3*cell,3*cell)}
+  finder(0,0);finder(N-7,0);finder(0,N-7);
+  g.save();g.translate(size/2,size/2);g.rotate(-Math.PI/6);g.fillStyle='rgba(183,28,22,.92)';g.fillRect(-112,-19,224,38);
+  g.fillStyle='#fff';g.font='700 22px "Barlow Condensed",Arial Narrow,sans-serif';g.textAlign='center';g.textBaseline='middle';g.fillText('DEMONSTRAÇÃO',0,1);g.restore();
+}
+function pagar(o,tipo){
+  var k=calc(o),valor=tipo==='sinal'?k.sinal:k.devendo;
+  o.pagos.push({tipo:tipo,valor:valor,em:Date.now()});save();
+}
+
+/* ---------- acompanhar ---------- */
+function timeline(o){
+  var k=calc(o),c=colOf(o),cheio=o.sinalPct>=100,first=o.pagos[0],last=o.pagos[o.pagos.length-1];
+  var steps=[['Reserva criada',true,dhm(o.criado)]];
+  steps.push([cheio?'Pix pago':'Sinal pago',o.pagos.length>0,first?dhm(first.em):'Falta pagar '+brl(k.sinal)]);
+  steps.push(['Lote chegou',!!o.chegou,o.chegou?'Pronto para você':(c.chegada?'Previsão '+dmy(c.chegada):'')]);
+  if(!cheio)steps.push(['Saldo pago',k.pago>=k.total,k.pago>=k.total&&last?dhm(last.em):(o.chegou?'Falta pagar '+brl(k.devendo):'Cobrado quando o lote chegar')]);
+  steps.push(['Enviado ou retirado',!!o.entregue,'']);
+  var seen=false;
+  return '<ol class="timeline">'+steps.map(function(s){var cls=s[1]?'done':(!seen?'now':'');if(!s[1])seen=true;
+    return '<li class="'+cls+'"><b>'+s[0]+'</b>'+(s[2]?'<small>'+esc(s[2])+'</small>':'')+'</li>'}).join('')+'</ol>';
+}
+function renderTrack(){
+  var out=$('#trackOut');
+  var o=S.orders.filter(function(x){return x.id===S.track})[0];
+  if(!o){out.innerHTML='';return}
+  var k=calc(o),c=colOf(o),s=status(o);
+  var act='';
+  if(s==='aguardando')act='<button class="btn" type="button" data-act="pay-track" data-id="'+o.id+'" data-tipo="sinal">Pagar sinal de '+brl(k.sinal)+'</button>';
+  if(s==='saldo')act='<button class="btn" type="button" data-act="pay-track" data-id="'+o.id+'" data-tipo="saldo">Pagar saldo de '+brl(k.devendo)+'</button>';
+  var arr=o.cancelado?'<p class="err" style="margin-top:14px">Pedido cancelado'+(o.estornoPendente?'. Vamos devolver '+brl(k.pago)+' por Pix. Falaremos com você pelo WhatsApp para pegar sua chave Pix.':'.')+'</p>':
+    o.arrep?'<p class="note" style="margin-top:14px">Recebemos seu pedido de cancelamento em '+dhm(o.arrep)+'. Vamos confirmar e devolver o que você pagou por Pix. Falaremos com você pelo WhatsApp para pegar sua chave Pix.</p>':
+    (s!=='expirado'?'<div style="margin-top:14px"><button class="btn sec sm" type="button" data-act="arrep" data-id="'+o.id+'">Quero cancelar este pedido</button></div>':'');
+  out.innerHTML='<div class="panel" style="max-width:720px"><div style="display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center;justify-content:space-between"><div class="plate">'+o.id+'</div>'+pill(o)+'</div>'+
+  '<h3 style="margin-top:14px">'+esc(c.nome)+'</h3><p class="muted">'+o.qtd+' peça'+(o.qtd>1?'s':'')+' · '+(o.entrega==='envio'?'envio':'retirada')+' · pedido de '+esc(first(o.nome))+'</p>'+
+  '<dl class="summary" style="margin-top:14px"><dt>Total</dt><dd>'+brl(k.total)+'</dd><dt>Pago</dt><dd>'+brl(k.pago)+'</dd><dt class="tot">Falta pagar</dt><dd class="tot">'+brl(o.cancelado?0:k.devendo)+'</dd></dl>'+
+  (s==='expirado'?'<p class="err">A reserva expirou porque o Pix do sinal não foi pago em '+HOLD_H+' horas. Fale com a loja para reabrir.</p>':'')+
+  timeline(o)+(act?'<div class="btnrow">'+act+'</div>':'')+arr+'</div>';
+}
+
+/* ---------- painel ---------- */
+var FILTERS=[['todos','Todos',function(){return true}],['aguardando','Aguardando sinal',function(o){return status(o)==='aguardando'}],['saldo','Saldo a pagar',function(o){return status(o)==='saldo'}],
+  ['pagos','Pagos',function(o){var s=status(o);return s==='pago'||s==='pronto'}],['atencao','Precisa de atenção',needs]];
+function needs(o){return (o.arrep&&!o.cancelado)||o.estornoPendente||status(o)==='pronto'}
+function actions(o){
+  var s=status(o),k=calc(o),c=colOf(o),b=[],u=sendUrl()+'#acompanhar';
+  function btn(t,a,x){return '<button class="btn sec sm" type="button" data-act="'+a+'" data-id="'+o.id+'"'+(x||'')+'>'+t+'</button>'}
+  function lnk(t,m){return '<a class="btn sec sm" target="_blank" rel="noopener" href="'+wa(o,m)+'">'+t+'</a>'}
+  if(s==='aguardando'){b.push(lnk('Cobrar no WhatsApp','Olá, '+first(o.nome)+'! Aqui é da '+STORE.nome+'. Seu pedido '+o.id+' ('+o.qtd+'x '+c.nome+') aguarda o Pix do sinal de '+brl(k.sinal)+'. Pague e acompanhe em '+u+' com o código '+o.id+'. A reserva fica garantida por '+HOLD_H+'h.'));b.push(btn('Registrar Pix do sinal','pay-sinal'))}
+  if(s==='expirado')b.push(btn('Reabrir reserva','reabrir'));
+  if(s==='saldo'){b.push(lnk('Cobrar saldo','Olá, '+first(o.nome)+'! O lote "'+c.nome+'" chegou. Falta o saldo de '+brl(k.devendo)+' do pedido '+o.id+', por Pix. Pague e acompanhe em '+u+' com o código '+o.id+'.'));b.push(btn('Registrar Pix do saldo','pay-saldo'))}
+  if(s==='pronto')b.push(btn('Marcar enviado ou retirado','entregar'));
+  if(s!=='cancelado'&&s!=='entregue')b.push(btn(o.arrep?'Aceitar cancelamento':'Cancelar','cancelar'));
+  if(o.cancelado&&o.estornoPendente)b.push(btn('Estorno feito','estornado'));
+  return '<div class="acts">'+b.join('')+'</div>';
+}
+function renderPainel(){
+  var all=S.orders.slice().sort(function(a,b){return b.criado-a.criado});
+  var aReceber=0,recebido=0,estorno=0,aguard=0;
+  all.forEach(function(o){var k=calc(o),s=status(o);
+    if(s==='aguardando'||s==='sinal_pago'||s==='saldo')aReceber+=k.devendo;
+    if(!o.cancelado)recebido+=k.pago;
+    if(o.cancelado&&o.estornoPendente)estorno+=k.pago;
+    if(s==='aguardando')aguard++});
+  var f=FILTERS.filter(function(x){return x[0]===S.filter})[0]||FILTERS[0];
+  var rows=all.filter(f[2]);
+  var h='<div class="kpis"><div class="kpi"><div class="k">A receber</div><div class="v">'+brl(aReceber)+'</div></div><div class="kpi"><div class="k">Recebido</div><div class="v">'+brl(recebido)+'</div></div>'+
+   '<div class="kpi"><div class="k">Aguardando sinal</div><div class="v">'+aguard+'</div></div><div class="kpi'+(estorno?' alert':'')+'"><div class="k">Estornos a fazer</div><div class="v">'+brl(estorno)+'</div></div></div>'+
+   '<div class="chips" role="group" aria-label="Filtrar pedidos">'+FILTERS.map(function(x){return '<button class="chip" type="button" data-act="filtro" data-f="'+x[0]+'" aria-pressed="'+(x[0]===S.filter)+'">'+x[1]+' ('+all.filter(x[2]).length+')</button>'}).join('')+'</div>'+
+   '<div class="tablewrap"><table><thead><tr><th>Pedido</th><th>Cliente</th><th>Coleção</th><th class="r">Total</th><th class="r">Pago</th><th>Situação</th><th>Ações</th></tr></thead><tbody>'+
+   (rows.length?rows.map(function(o){var k=calc(o),c=colOf(o);
+     return '<tr><td><strong>'+o.id+'</strong><br><small>'+dmy(o.criado)+'</small></td><td>'+esc(o.nome)+'<br><small>'+esc(fmtZap(o.zap))+'</small></td>'+
+     '<td>'+esc(c.nome)+'<br><small>'+o.qtd+' peça'+(o.qtd>1?'s':'')+' · '+(o.entrega==='envio'?'envio':'retirada')+'</small></td>'+
+     '<td class="r tab">'+brl(k.total)+'</td><td class="r tab">'+brl(k.pago)+(o.cancelado?'':(k.devendo?'<br><small>faltam '+brl(k.devendo)+'</small>':''))+'</td>'+
+     '<td><div class="stack">'+pill(o)+(o.arrep&&!o.cancelado?'<span class="pill p-bad">Quer cancelar</span>':'')+(o.estornoPendente?'<span class="pill p-bad">Estorno pendente</span>':'')+'</div></td><td>'+actions(o)+'</td></tr>'}).join(''):'<tr><td colspan="7" class="muted">Nenhum pedido neste filtro.</td></tr>')+'</tbody></table></div>'+
+   '<div class="sect"><h2>Coleções e lotes</h2><div class="panel" style="padding:0">'+S.cols.map(function(c){
+     var res=reservados(c.id),pct=Math.min(100,Math.round(res/c.vagas*100));
+     var os=S.orders.filter(function(o){return o.col===c.id&&ativo(o)&&o.chegou&&c.tipo==='pre'});
+     var rec=S.orders.filter(function(o){return o.col===c.id&&!o.cancelado}).reduce(function(s,o){return s+calc(o).pago},0);
+     var btn=(c.tipo==='pre'&&!c.chegou)?'<button class="btn sm" type="button" data-act="chegou" data-id="'+c.id+'">Marcar lote como chegou</button>':'<span class="pill p-ok">'+(c.tipo==='estoque'?'Pronta entrega':'Lote chegou')+'</span>';
+     var avis=os.length?'<details><summary>Avisar clientes ('+os.length+')</summary><ul>'+os.map(function(o){var k=calc(o);
+       var msg='Olá, '+first(o.nome)+'! Aqui é da '+STORE.nome+'. O lote "'+c.nome+'" chegou. '+(k.devendo>0?'Falta o saldo de '+brl(k.devendo)+' do pedido '+o.id+', por Pix. Pague em '+sendUrl()+'#acompanhar com o código '+o.id+'.':'Seu pedido '+o.id+' está pago e pronto. Vamos combinar a entrega.');
+       return '<li><a target="_blank" rel="noopener" href="'+wa(o,msg)+'">'+esc(o.nome)+'</a> · '+(k.devendo>0?'saldo '+brl(k.devendo):'pago')+'</li>'}).join('')+'</ul></details>':'';
+     return '<div class="colrow"><div><strong>'+esc(c.nome)+'</strong><br><small>'+(c.tipo==='estoque'?'Pronta entrega':c.chegou?'Chegou':'Chegada prevista '+dmy(c.chegada))+' · '+brl(c.preco)+' por peça · sinal '+c.sinalPct+'%</small></div>'+
+       '<div><div class="bar"><i style="width:'+pct+'%"></i></div><div class="bar-l"><span>'+res+' de '+c.vagas+' reservadas</span><span>recebido '+brl(rec)+'</span></div></div><div>'+btn+'</div>'+avis+'</div>'}).join('')+'</div></div>';
+  $('#pDyn').innerHTML=h;
+}
+
+/* ---------- roteamento e eventos ---------- */
+var VIEWS=['loja','acompanhar','painel','politicas'];
+function route(){
+  var v=(location.hash||'#loja').slice(1);if(VIEWS.indexOf(v)<0)v='loja';
+  S.view=v;
+  $$('.view').forEach(function(s){s.hidden=s.id!=='v-'+v});
+  $$('nav.main a').forEach(function(a){if(a.getAttribute('data-v')===v)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
+  closeModal();render();window.scrollTo(0,0);
+}
+function render(){
+  renderLoja();renderTrack();renderPainel();
+  $('#legalFull').innerHTML=privacidade()+termos()+arrepend();
+  $('#supBlock').innerHTML='<h3>Dados do fornecedor</h3>'+sup().replace(/<strong>Fornecedor:<\/strong> /,'');
+  $('#demo').hidden=!DEMO;
+  $('#adminNote').hidden=!DEMO;$('#legalNote').hidden=!DEMO;
+}
+function byId(id){return S.orders.filter(function(o){return o.id===id})[0]}
+document.addEventListener('click',function(e){
+  var t=e.target.closest('[data-act]');if(!t)return;
+  var a=t.getAttribute('data-act'),id=t.getAttribute('data-id'),o=id?byId(id):null;
+  if(a==='scroll-col'){$('#colecoes').scrollIntoView({behavior:'smooth'})}
+  else if(a==='reservar'){openReserve(id)}
+  else if(a==='close'){closeModal()}
+  else if(a==='q-'||a==='q+'){var i=$('#qtd'),m=maxQtd(R.col),v=parseInt(i.value,10)||1;v=Math.max(1,Math.min(m,v+(a==='q+'?1:-1)));i.value=v;$('#liveTotal').textContent=brl(v*R.col.preco)}
+  else if(a==='voltar'){R.step=1;renderModal();var tt=$('#mTitle');if(tt)tt.focus()}
+  else if(a==='simular'){
+    var tipo=R.tipo;pagar(R.order,tipo);
+    if(R.from==='track'){closeModal();render();toast('Pix recebido. Obrigado!')}else{R.step=4;renderModal();$('#mTitle').focus();renderLoja()}
+  }
+  else if(a==='ver-pedido'){S.track=id;$('#tCode').value=id;$('#tZap').value=o.zap.slice(-4);if(location.hash==='#acompanhar'){closeModal();render()}else{location.hash='#acompanhar'}}
+  else if(a==='pay-track'){openPix(id,t.getAttribute('data-tipo'))}
+  else if(a==='arrep'){o.arrep=Date.now();save();render();toast('Recebemos seu pedido de cancelamento.')}
+  else if(a==='filtro'){S.filter=t.getAttribute('data-f');renderPainel()}
+  else if(a==='pay-sinal'){pagar(o,'sinal');render();toast('Pix do sinal registrado.')}
+  else if(a==='pay-saldo'){pagar(o,'saldo');render();toast('Pix do saldo registrado.')}
+  else if(a==='reabrir'){o.criado=Date.now();save();render();toast('Reserva reaberta por '+HOLD_H+' horas.')}
+  else if(a==='entregar'){o.entregue=true;save();render();toast('Pedido marcado como enviado ou retirado.')}
+  else if(a==='estornado'){o.estornoPendente=false;save();render();toast('Estorno registrado.')}
+  else if(a==='cancelar'){
+    if(t.getAttribute('data-armed')!=='1'){t.setAttribute('data-armed','1');t.textContent='Confirmar?';setTimeout(function(){if(t.isConnected){t.removeAttribute('data-armed');t.textContent=o.arrep?'Aceitar cancelamento':'Cancelar'}},4000)}
+    else{cancelar(o);save();render();toast(calc(o).pago>0?'Pedido cancelado. Falta fazer o estorno por Pix.':'Pedido cancelado.')}
+  }
+  else if(a==='chegou'){
+    var c=S.cols.filter(function(x){return x.id===id})[0];c.chegou=true;
+    S.orders.forEach(function(x){if(x.col===id)x.chegou=true});save();render();toast('Lote marcado como chegou. Avise os clientes abaixo.');
+  }
+  else if(a==='reset'){S=seed();S.view='painel';S.filter='todos';S.track='GA-0001';save();render();toast('Dados de exemplo restaurados.')}
+});
+document.addEventListener('input',function(e){
+  if(e.target.id==='qtd'&&R.col){var m=maxQtd(R.col),v=parseInt(e.target.value.replace(/\D/g,''),10)||1;v=Math.max(1,Math.min(m,v));$('#liveTotal').textContent=brl(v*R.col.preco)}
+});
+document.addEventListener('submit',function(e){
+  var f=e.target.id;if(!f)return;e.preventDefault();
+  if(f==='f1'){
+    var c=R.col,m=maxQtd(c),q=Math.max(1,Math.min(m,parseInt($('#qtd').value.replace(/\D/g,''),10)||1));
+    var nome=$('#nome').value.trim(),zap=$('#zap').value.replace(/\D/g,'').replace(/^55(?=\d{10,11}$)/,''),mail=$('#mail').value.trim(),err=$('#err');
+    R.d={qtd:q,entrega:($('input[name=ent]:checked')||{}).value||'retirada',nome:nome,zap:$('#zap').value,email:mail};
+    if(nome.length<5||nome.indexOf(' ')<0){err.textContent='Informe o nome completo.';$('#nome').focus();return}
+    if(!/^\d{10,11}$/.test(zap)){err.textContent='Informe o WhatsApp com DDD, por exemplo (62) 90000-0000.';$('#zap').focus();return}
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail)){err.textContent='Informe um e-mail válido.';$('#mail').focus();return}
+    R.d.zapDigits=zap;R.step=2;renderModal();$('#mTitle').focus();
+  } else if(f==='f2'){
+    var err2=$('#err'),c2=R.col;
+    if(!$('#aceite').checked){err2.textContent='Marque o aceite dos termos e da política de privacidade para continuar.';$('#aceite').focus();return}
+    if(R.d.qtd>c2.vagas-reservados(c2.id)){err2.textContent='Não há mais vagas suficientes. Volte e reduza a quantidade.';return}
+    var o={id:nextId(),col:c2.id,qtd:R.d.qtd,preco:c2.preco,sinalPct:c2.sinalPct,nome:R.d.nome,zap:'55'+R.d.zapDigits,email:R.d.email,entrega:R.d.entrega,
+      criado:Date.now(),pagos:[],chegou:!!c2.chegou||c2.tipo==='estoque',entregue:false,cancelado:false,arrep:null,estornoPendente:false,
+      consent:{aceite:true,marketing:$('#mkt').checked,em:Date.now()}};
+    S.orders.push(o);save();R.order=o;R.tipo='sinal';R.step='pix';R.from=null;renderModal();$('#mTitle').focus();renderLoja();
+  } else if(f==='trackForm'){
+    var code=$('#tCode').value.trim().toUpperCase(),dig=$('#tZap').value.replace(/\D/g,'');
+    var found=S.orders.filter(function(x){return x.id===code&&x.zap.slice(-4)===dig})[0];
+    if(!found){$('#tErr').textContent='Não encontramos esse pedido. Confira o código e os 4 últimos dígitos do WhatsApp usado na reserva.';S.track=null;renderTrack();return}
+    $('#tErr').textContent='';S.track=found.id;renderTrack();
+  } else if(f==='newCol'){
+    var nome2=$('#nNome').value.trim(),preco=Math.round(parseFloat($('#nPreco').value)*100),sinal=parseInt($('#nSinal').value,10),vagas=parseInt($('#nVagas').value,10),tipo=$('#nTipo').value,dt=$('#nData').value,er=$('#nErr');
+    if(nome2.length<3){er.textContent='Informe o nome da coleção.';return}
+    if(!(preco>0)){er.textContent='Informe o preço por peça.';return}
+    if(!(sinal>=10&&sinal<=100)){er.textContent='O sinal deve ficar entre 10% e 100%.';return}
+    if(!(vagas>=1)){er.textContent='Informe o número de vagas.';return}
+    if(tipo==='pre'&&!dt){er.textContent='Informe a chegada prevista do lote.';return}
+    er.textContent='';
+    S.cols.push({id:'c'+Date.now(),nome:nome2,tipo:tipo,chegada:tipo==='pre'?new Date(dt+'T12:00:00').getTime():null,chegou:tipo==='estoque',preco:preco,sinalPct:tipo==='estoque'?100:sinal,vagas:vagas,desc:$('#nDesc').value.trim()||'Coleção de miniaturas em escala 1:64.'});
+    save();render();e.target.reset();toast('Coleção aberta na vitrine.');
+  }
+});
+document.addEventListener('keydown',function(e){
+  if($('#overlay').hidden)return;
+  if(e.key==='Escape'){closeModal();return}
+  if(e.key==='Tab'){
+    var f=$$('button,input,a[href],summary,select',$('#overlay .modal')).filter(function(x){return !x.disabled&&x.offsetParent!==null});
+    if(!f.length)return;var a=f[0],z=f[f.length-1];
+    if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}
+    else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}
+  }
+});
+$('#overlay').addEventListener('mousedown',function(e){if(e.target===this)closeModal()});
+window.addEventListener('hashchange',route);
+route();
+})();
+</script>
